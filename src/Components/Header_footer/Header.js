@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 
 import { Link } from "react-router-dom";
 
+import {CityLogo} from '../../Ui/icons'
+
 export default class Header extends Component {
   render() {
     return (
@@ -17,12 +19,17 @@ export default class Header extends Component {
         padding: '10x 0',
         borderBottom: '2px solid #00285e'
      }}>
-        <Toolbar styles={{
+        <Toolbar style={{
           display: 'flex'
         }}>
           <div style={{flexGrow: 1}}>
             <div className="header_logo">
-              LOGO
+              <CityLogo 
+              link={true} 
+              linkTo="/"
+              width="70px"
+              height="70px"
+              />
             </div>
           </div>
 
@@ -33,7 +40,6 @@ export default class Header extends Component {
           <Link to="/the_matches">
             <Button color="inherit">Matches</Button>
           </Link>
-        
       </Toolbar>
      </AppBar>
     )
