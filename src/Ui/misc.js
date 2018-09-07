@@ -14,7 +14,7 @@ export const Tag = (props) => {
   >
   {props.children}
   </div>
-    
+
   if(props.link){
       return(
         <Link to={props.linkto}>{template}</Link>
@@ -22,7 +22,28 @@ export const Tag = (props) => {
   }else{
     return template
   }
-  
 }
 
 
+export const firebaseLooper = (snapshot) => {
+  const data = [];
+  snapshot.forEach((childSnapshot) => {
+    data.push({
+      ...childSnapshot.val(),
+      id: childSnapshot.key
+    })
+  })
+
+  return data
+}
+
+export const reverseArray = (actuaArray) => {
+  let reversedArray = [];
+
+
+  for(let i= actuaArray.length-1; i>=0; i--){
+    reversedArray.push(actuaArray[i])
+  }
+
+  return reversedArray;
+}
