@@ -2,7 +2,7 @@ import React from 'react'
 import Featured from './featured'
 import Matches from './matches'
 import MeetPlaers from './meetPlayers'
-
+import Promotion from './Promotion'
 
 const Home = () => {
   return (
@@ -10,6 +10,7 @@ const Home = () => {
       <Featured />
       <Matches />
       <MeetPlaers />
+      <Promotion />
     </div>
   )
 }
