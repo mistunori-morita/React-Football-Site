@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Fade from "react-reveal/Fade";
 import FormField from '../../../Ui/FormField'
 import { validate } from "../../../Ui/misc";
+import { firebasePromotions } from "../../../firebase";
+
 
 export default class Enroll extends Component {
 
@@ -42,7 +44,34 @@ export default class Enroll extends Component {
       formError: false,
       formdata: newFormdata
     })
+
+    this.successMessage();
   }
+
+  successMessage(){
+    setTimeout( ()=> {
+      this.setState({
+        formSuccess: ''
+      })
+    }, 2000)
+  }
+
+  resetFormSuccess(type) {
+    const newFormdata = { ...this.state.formdata }
+
+    for(let key in newFormdata){
+      newFormdata[key].value = ''
+      newFormdata[key].valid = false
+      newFormdata[key].validationMessage = ''
+    }
+
+    this.setState({
+      formError: false,
+      formdata: newFormdata,
+      formSuccess: type ? 'Good' : 'Alerady on the database'
+    })
+  }
+
 
   submitForm(event){
     event.preventDefault();
@@ -57,7 +86,16 @@ export default class Enroll extends Component {
     }
 
     if (formIsValid){
-      console.log(dataToSubmit)
+      firebasePromotions.orderByChild('email').equalTo(dataToSubmit.email).once("value")
+        .then((snapshot)=> {
+         if(snapshot.val() === null){
+          firebasePromotions.push(dataToSubmit)
+           this.resetFormSuccess(true);
+         }else{
+           this.resetFormSuccess(false);
+         }
+      })
+      // this.resetFormSuccess();
     }else {
       console.log('Error')
       this.setState({
@@ -84,7 +122,11 @@ export default class Enroll extends Component {
               />
 
               {this.state.formError ? <div className="error_label">something is wrong, try again</div> :null}
+              <div className="success_label">{this.state.formSuccess}</div>
               <button onClick={(event) => this.submitForm(event)}>Enroll</button>
+              <div className="enroll_discl">
+                Lorem ipsum dolor sit amet
+              </div>
             </div>
           </form>
         </div>
